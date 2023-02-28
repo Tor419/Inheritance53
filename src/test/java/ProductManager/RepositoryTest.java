@@ -25,7 +25,7 @@ class RepositoryTest {
     }
 
     @Test
-    public void testRemoveWenProductNotExist() {
+    public void testFindWenProductNullExist() {
         Repository repo = new Repository();
         Manager manager = new Manager(repo);
         Book book1 = new Book(1, "Harry Potter", 100, "Rolling");
@@ -62,7 +62,7 @@ class RepositoryTest {
         Assertions.assertArrayEquals(expected, actual);
     }
     @Test
-    public void testAddNotProduct() {
+    public void testAddProduct() {
         Repository repo = new Repository();
         Manager manager = new Manager(repo);
         Book book1 = new Book(1, "Harry Potter", 100, "Rolling");
@@ -75,6 +75,37 @@ class RepositoryTest {
         Product[] expected = {smartphone1};
 
         Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testErrorOutput() {
+        Repository repo = new Repository();
+        Manager manager = new Manager(repo);
+        Book book1 = new Book(1, "Harry Potter", 100, "Rolling");
+        Book book2 = new Book(2, "War and Piece", 200, "Tolstoy");
+        Book book3 = new Book(3, "Harry Potter2", 300, "Rolling");
+
+        repo.add(book1);
+        repo.add(book2);
+        repo.add(book3);
+        Assertions.assertThrows(NotFoundException.class,
+                () -> repo.removeById(4)
+        );
+    }
+    @Test
+    public void testErrorOutputNotProduct() {
+        Repository repo = new Repository();
+        Manager manager = new Manager(repo);
+        Book book1 = new Book(1, "Harry Potter", 100, "Rolling");
+        Book book2 = new Book(2, "War and Piece", 200, "Tolstoy");
+        Book book3 = new Book(3, "Harry Potter2", 300, "Rolling");
+
+        repo.add(book1);
+        repo.add(book2);
+        repo.add(book3);
+        Assertions.assertThrows(NotFoundException.class,
+                () -> repo.removeById(0)
+        );
     }
 
 }
